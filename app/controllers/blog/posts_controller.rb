@@ -1,7 +1,7 @@
-class Blog::PostsController < ApplicationController
-  
+class Blog::PostsController < ::ApplicationController
+
   layout ComfyBlog.config.public_layout
-  
+
   def index
     scope = if params[:tag]
       Blog::Post.published.tagged_with(params[:tag])
@@ -13,7 +13,7 @@ class Blog::PostsController < ApplicationController
     else
       Blog::Post.published
     end
-    
+
     respond_to do |f|
       f.html do
         @posts = if defined? WillPaginate
@@ -29,7 +29,7 @@ class Blog::PostsController < ApplicationController
       end
     end
   end
-  
+
   def show
     @post = if params[:slug] && params[:year] && params[:month]
       Blog::Post.published.find_by_year_and_month_and_slug!(params[:year], params[:month], params[:slug])

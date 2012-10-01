@@ -1,18 +1,18 @@
-class Blog::CommentsController < ApplicationController
-  
+class Blog::CommentsController < ::ApplicationController
+
   def create
     @post = Blog::Post.published.find(params[:post_id])
     @comment = @post.comments.new(params[:comment])
     @comment.save!
-    
+
     respond_to do |f|
-      f.html do 
+      f.html do
         flash[:notice] = 'Comment created'
         redirect_to dated_blog_post_path(@post.year, @post.month, @post.slug)
       end
       f.js
     end
-    
+
   rescue ActiveRecord::RecordNotFound
     respond_to do |f|
       f.html do
@@ -23,7 +23,7 @@ class Blog::CommentsController < ApplicationController
         render :nothing => true, :status => 404
       end
     end
-    
+
   rescue ActiveRecord::RecordInvalid
     respond_to do |f|
       f.html do
